@@ -1,0 +1,48 @@
+----------------------------------------------
+A-1 Declarations, Expressions, and Assignments
+----------------------------------------------
+
+     
+
+        1   How  do the  declarations  look in  the  GIMPLE? Specifically,  what
+            happens to multiple  variables declared and initialized  on the same
+            line? What happens to global declaration [int Z]?
+
+	ANS :-	 Every  declaration is  displayed on  its own  line as  an independent
+            local variable  declaration.When multiple variables are declared and initialized,
+	    they are broken  up into simple declarations at the  top and an assignment statement in 
+	    the body of the procedure.  There is no  declaration for global  variables; they
+            are used directly.For using Z, its value must be loaded to/stored from locals.
+
+
+
+        2   How are complex  expressions such as [c  = a * b +  25] broken down?
+            Can you  determine a  rule as  to when  temporary variables  will be
+            introduced?
+
+	ANS :- 	  In a GIMPLE file, a statement can have  at the most one operation.  Any expression
+            containing  more than  one  operation is  broken  up by  introducing
+            temporaries.Temporaries are introduced whenever an operation is
+   	    used as an intermediate component of a computation.
+
+
+
+        3   How are  floats/doubles represented in  GIMPLE? What happens  when a
+            float/double is assigned to an integer in [Z = r]?
+
+	ANS :-	 Floats and doubles are represented using scientific notation. An explicit
+   cast (larger datatype to lower datatype)is inserted when a float is assigned to an int.
+
+
+
+
+        4   How  are reads/writes  to the  global variable  Z performed?  Why is
+            there a temporary introduced  for the statement [Z = Z  + 1] but not
+            for the statements [q = Z] or [Z = p]?
+
+	ANS :-	 Reading or writing  from a  global  variables  requires  a memory  load
+            or  store operation.  As  GIMPLE  statements can  have  at most  one
+            operation in a line, A temporary is required for Z = Z + 1 because the result
+	    of the computation Z + 1 cannot be written directly to a memory location.
+            
+

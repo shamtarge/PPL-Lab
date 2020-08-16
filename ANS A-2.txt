@@ -1,0 +1,82 @@
+---------------------------------------------
+A-2 Conditional Jumps and Control Flow Graphs
+---------------------------------------------
+
+
+Questions
+---------
+
+        1   How have if-blocks  been translated into GIMPLE  statements? Can you
+            differentiate between conditional and unconditional gotos?
+
+	ANS :-	 As GoTo performs a one way transfer of control to another line of code, 
+	    If-blocks have been broken down distinct sections i.e GoTo (named similar  to  temporary  variables). Control  transfer
+            occurs with unconditional jumps (e.g. "goto X") or conditional jumps
+            (e.g. "if Z then goto X else goto Y").
+
+
+
+
+
+        2   Repeat  the  above compilation,  but  now  asking for  another  dump
+            that  of  the pass  "cfg".  View  this  pass  and say  whether  this
+            representation makes it easier to  read and understand GIMPLEs. Draw
+            the control-flow graph  of the program A-2.c on a  piece of paper by
+            looking at the CFG dump.
+
+            Compilation : gcc-4.7.2 -c -fdump-tree-cfg A-2.c
+            View result : vi -O A-2.c A-2.c.*.cfg
+            
+
+	ANS :-	It's a bit easier to see the control flow in this representation, but
+   	    slightly less concise in terms of number of lines  as The control-flow  
+	    graph dump shows  distinct basic blocks  which are
+            named sequentially starting from  1. Basic blocks roughly correspond
+            to  labels that  are created  during the  gimplification of  control
+            statements as shown below.
+
+		   f ()
+                {
+                  int c;
+                  int b;
+                  int a;
+                  int Z.0;
+                  int D.1715;
+
+                <bb 2>:
+                  a = Z;
+                  if (a <= 9)
+                    goto <bb 3>;
+                  else
+                    goto <bb 4>;
+
+                <bb 3>:
+                  b = 5;
+                  c = 17;
+                  goto <bb 6>;
+
+                <bb 4>:
+                  b = 6;
+                  c = 20;
+                  if (a == 0)
+                    goto <bb 5>;
+                  else
+                    goto <bb 6>;
+
+                <bb 5>:
+                  c = 0;
+
+                <bb 6>:
+                  D.1715 = b * 10;
+                  Z.0 = D.1715 + c;
+                  Z = Z.0;
+                  return;
+
+                }
+                  
+
+
+
+
+
+

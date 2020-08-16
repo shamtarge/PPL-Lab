@@ -1,0 +1,38 @@
+------------------------------------
+B-4 Common Subexpression Elimination
+------------------------------------
+
+   
+
+Answers
+---------
+
+        1   How many  times is the expression  (a + c) computed  in the original
+            code (as seen in the SSA pass)? What about after the FRE pass?
+
+	ANS :-	The expression is computed twice in the code,but the FRE pass was able
+            to  reuse the  temporary variable  which  stored the  result of  the
+            intitial computation  of (a +  c). Thus,  one line of  execution was
+            saved, and so was the use of an extra variable. 
+
+
+
+        2   Have  there been  any more  optimizations  after FRE?  How will  you
+            check?
+
+	ANS :-	We can check if there have been further optimisations by checking
+ 	    B-4.c.*.optimized. If  it is same as the output  of FRE, then no
+            more optimizations have occured.
+
+
+
+        3   Why did  we have  to put a  "return b" in  this assignment?  What if
+            "return b" is changed to "return 0"? Will it make any difference?
+
+	ANS :-	If return b is removed then the computations ofvariable b is waste
+	   It would result in its elimination as dead code .  If function  `main' is
+	   going to "return 0"  and there is no other  output.
+           
+
+
+

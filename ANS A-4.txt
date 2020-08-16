@@ -1,0 +1,37 @@
+-----------------------
+A-4 Arrays and Pointers
+-----------------------
+
+
+Answers
+---------
+
+        1   How is array declaration and initialization handled?
+
+	ANS :-	In GIMPLE as one operation is allowed in one statement , the array
+            initialization is split into  multiple statements that assign values
+            to  individual array  elements. This  is to  remain consistent  with
+            GIMPLE's one operation per statement policy.
+
+
+
+        2   Why does the statement a[i] = b[i] get broken down to two steps with
+            an intermediate temporary?
+
+	ANS :-	As GIMPLE  can perform only  one operation per statement,  it cannot
+            read  and write  to  array  locations at  the  same  time (as  array
+            accesses  involve offset  calculation). Thus,  these are  split into
+            separate read and write statements by introducing a temporary.
+
+
+		
+
+        3   Why are there CLOBBER statements at the end?
+
+	ANS :-	CLOBBER statements are used for  address-escaped variables.
+	    To mark the arrays as invalid at scope exit i.e the  scope  of  this  address-escaped
+            variable has ended.
+
+
+
+
